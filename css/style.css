@@ -31,6 +31,7 @@ body {
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.6;
+  overflow-x: hidden; /* This stops your page from wiggling left and right! */
 }
 
 a {
@@ -191,7 +192,7 @@ ul {
    HERO SECTION
 =========================== */
 .hero{
-    min-height: 90vh;
+    min-height: 70vh;
     display: flex;
     align-items: center;
     background:
@@ -219,11 +220,14 @@ ul {
 }
 
 .hero h1 {
-  font-family: var(--font-heading);
-  font-size: 6rem;
-  line-height: 1;
-  letter-spacing: 3px;
-  margin-bottom: 20px;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+}
+.hero h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    line-height: 1;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
 }
 
 .hero h1 span {
@@ -315,14 +319,13 @@ ul {
   overflow: hidden;
   background: #222;
   object-fit: cover;
-  object-position: center;
 }
 
 .shoe-card-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  display: block;
 }
 
 .shoe-card-body {
@@ -1104,7 +1107,6 @@ ul {
     border-radius:10px;
     background:#1a1a1a;
     border:1px solid #333;
-    filter:brightness(1.15) contrast(1.1);
 }
 
 .cart-info{
@@ -1349,3 +1351,500 @@ ul {
     flex-wrap: wrap;
   }
 }
+
+
+/* ===================================================
+   STRIDEX FINAL MOBILE FIXES (SHRINKS & CENTERS TEXT)
+=================================================== */
+@media (max-width: 640px) {
+  
+  /* This centers your text and keeps it inside the screen */
+  .hero-content {
+    text-align: center;
+    margin: 0 auto;
+    padding: 0 10px;
+  }
+
+  /* This shrinks the giant "WALK BOLD" font so it doesn't break the screen layout */
+  .hero h1 {
+    font-size: 3.2rem !important; 
+    line-height: 1.1;
+    margin-bottom: 15px;
+  }
+
+  /* This centers the paragraphs */
+  .hero p {
+    margin: 0 auto 30px auto;
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  /* This stacks the "Shop Now" and "Our Story" buttons on top of each other */
+  .hero-buttons {
+    flex-direction: column !important;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* This makes both buttons matching sizes so they look super professional */
+  .hero-buttons .btn {
+    width: 100%;
+    max-width: 260px;
+    text-align: center;
+  }
+}
+
+/* --- Products Page Mobile Layout Fix --- */
+@media (max-width: 640px) {
+  
+  #products-container, 
+  .shoe-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+    padding: 0 10px;
+  }
+
+  .page-banner h1 {
+    font-size: 2.5rem !important;
+    text-align: center;
+  }
+
+  .page-banner p {
+    text-align: center;
+    font-size: 0.9rem;
+  }
+}
+
+/* MOBILE FIXES */
+@media (max-width: 768px) {
+
+  body {
+    overflow-x: hidden;
+  }
+
+  .hero,
+  .hero-content {
+    padding: 20px;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 2rem !important;
+    line-height: 1.1;
+  }
+
+  .hero p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .btn,
+  .hero button {
+    width: 100%;
+    max-width: 300px;
+    margin: 10px auto;
+    display: block;
+  }
+
+  .container {
+    width: 95%;
+    padding: 0 15px;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+  }
+
+  .product-card {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .mobile-menu {
+    display: block;
+  }
+}
+
+/* =====================================
+   STRIDEX MOBILE OVERHAUL
+   ADD THIS AT THE VERY END
+===================================== */
+
+@media (max-width: 768px){
+
+  .container{
+    width:100%;
+    padding:0 20px;
+  }
+
+  /* NAVBAR */
+  .navbar{
+    padding:15px 0;
+  }
+
+  .logo img{
+    width:150px;
+    max-height:50px;
+  }
+
+  /* HERO */
+  .hero{
+    min-height:auto;
+    padding:60px 0 50px;
+    text-align:center;
+  }
+
+  .hero-content{
+    max-width:100%;
+    padding:0;
+    margin:auto;
+  }
+
+  .hero-tag{
+    font-size:0.65rem;
+    padding:6px 12px;
+    margin-bottom:15px;
+  }
+
+  .hero h1{
+    font-size:2.8rem !important;
+    line-height:1;
+    letter-spacing:1px;
+    margin-bottom:15px;
+  }
+
+  .hero p{
+    font-size:0.95rem;
+    line-height:1.6;
+    max-width:100%;
+    margin:0 auto 25px;
+  }
+
+  .hero-buttons{
+    flex-direction:column;
+    align-items:center;
+    width:100%;
+  }
+
+  .hero-buttons .btn{
+    width:100%;
+    max-width:280px;
+  }
+
+  .hero-image{
+    display:none;
+  }
+
+  /* FEATURES BAR */
+  .features-strip{
+    padding:15px 0;
+  }
+
+  .features-strip .container{
+    flex-direction:column;
+    gap:12px;
+  }
+
+  .feature-item{
+    font-size:0.75rem;
+    justify-content:center;
+    text-align:center;
+  }
+
+  /* SECTION HEADINGS */
+  .section-title{
+    font-size:2rem;
+    text-align:center;
+  }
+
+  .section-subtitle{
+    text-align:center;
+  }
+
+  /* PRODUCTS */
+  .shoe-grid,
+  #products-container{
+    grid-template-columns:1fr !important;
+    gap:20px;
+  }
+
+  .shoe-card-img{
+    height:240px;
+  }
+
+  .shoe-card-body{
+    padding:16px;
+  }
+
+  /* ABOUT */
+  .about-grid{
+    grid-template-columns:1fr;
+    gap:30px;
+  }
+
+  .about-text{
+    text-align:center;
+  }
+
+  .stats-row{
+    grid-template-columns:1fr;
+  }
+
+  /* TEAM */
+  .team-grid{
+    grid-template-columns:1fr;
+  }
+
+  /* CONTACT */
+  .contact-grid{
+    grid-template-columns:1fr;
+    gap:30px;
+  }
+
+  /* GALLERY */
+  .gallery-grid{
+    grid-template-columns:1fr;
+  }
+
+  .gallery-item,
+  .gallery-item.large{
+    height:220px;
+    grid-column:auto;
+  }
+
+  /* FOOTER */
+  .footer{
+    padding:40px 0 20px;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr !important;
+    gap:25px;
+    text-align:center;
+  }
+
+  .footer-brand{
+    align-items:center;
+  }
+
+  .footer-brand img{
+    width:180px;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  /* CART */
+  .cart-sidebar{
+    width:100%;
+    right:-100%;
+  }
+
+  .cart-sidebar.active{
+    right:0;
+  }
+
+  /* FILTERS */
+  .filter-bar{
+    justify-content:center;
+  }
+
+  .filter-btn{
+    font-size:0.75rem;
+    padding:8px 14px;
+  }
+
+  /* PAGE BANNERS */
+  .page-banner{
+    padding:40px 0;
+    text-align:center;
+  }
+
+  .page-banner h1{
+    font-size:2.5rem;
+  }
+
+  /* FIXES RANDOM OVERFLOW */
+  *{
+    max-width:100%;
+  }
+
+  body,
+  html{
+    overflow-x:hidden;
+  }
+}
+
+@media (max-width: 768px){
+
+  .hero{
+    min-height:auto;
+    padding:50px 0;
+  }
+
+  .hero-content{
+    max-width:100%;
+    text-align:center;
+    padding:0 15px;
+  }
+
+  .hero h1{
+    font-size:2.5rem !important;
+    line-height:1.05;
+  }
+
+  .hero p{
+    font-size:0.95rem;
+    max-width:100%;
+    margin:15px auto;
+  }
+
+  .hero-buttons{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:12px;
+  }
+
+  .hero-buttons .btn{
+    width:100%;
+    max-width:260px;
+  }
+
+  .hero-image{
+    display:none;
+  }
+
+  .feature-item{
+    font-size:0.75rem;
+  }
+
+  .shoe-grid,
+  #products-container{
+    grid-template-columns:1fr !important;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr !important;
+  }
+
+  .cart-sidebar{
+    width:100%;
+  }
+}
+
+/* ===================================================
+   STRIDEX RESPONSIVE NAVBAR & NAV-ACTIONS OVERRIDES
+   =================================================== */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.desktop-only-cart {
+  display: block;
+}
+
+.mobile-only-cart {
+  display: none;
+}
+
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 18px;
+  height: 18px;
+  background: #ff3b30;
+  color: white;
+  border-radius: 50%;
+  font-size: 11px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .nav-right {
+    gap: 0 !important;
+  }
+
+  .hamburger {
+    display: flex !important;
+  }
+
+  .nav-links {
+    display: none !important;
+    flex-direction: column !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    background-color: var(--gray) !important;
+    border-top: 1px solid var(--lightgray) !important;
+    border-bottom: 1px solid var(--lightgray) !important;
+    padding: 20px !important;
+    gap: 15px !important;
+    z-index: 998 !important;
+  }
+
+  .nav-links.open {
+    display: flex !important;
+  }
+
+  .nav-links li {
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  .nav-links li a {
+    display: block !important;
+    width: 100% !important;
+    padding: 10px 0 !important;
+    font-size: 1rem !important;
+  }
+
+  .cart-btn {
+    margin-left: 0 !important;
+  }
+
+  .desktop-only-cart {
+    display: none !important;
+  }
+
+  .mobile-only-cart {
+    display: flex !important;
+  }
+
+  .shoe-card-img {
+    height: auto !important;
+  }
+
+  .shoe-card-img img {
+    height: auto !important;
+  }
+}
+

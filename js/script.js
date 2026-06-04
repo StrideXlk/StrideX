@@ -4,6 +4,30 @@
 
 $(document).ready(function () {
 
+  // DYNAMIC CART SIDEBAR INJECTION
+  if ($("#cartSidebar").length === 0) {
+    $("body").append(`
+      <!-- CART SIDEBAR -->
+      <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+          <h2>Your Cart</h2>
+          <button onclick="toggleCart()" style="background:none;border:none;color:white;font-size:22px;cursor:pointer;">×</button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer">
+          <div class="cart-total">
+            <span>Subtotal</span>
+            <span id="subtotal">Rs.0</span>
+          </div>
+          <button class="checkout-btn">Checkout</button>
+        </div>
+      </div>
+    `);
+  }
+
+  // INITIALIZE CART UI ON LOAD
+  updateCart();
+
   // HAMBURGER MENU
   $("#hamburger").on("click", function () {
     $("#nav-links").toggleClass("open");
@@ -280,6 +304,14 @@ function selectSize(el) {
 // ===========================
 
 let cart = [];
+try {
+  let savedCart = localStorage.getItem("stridex_cart");
+  if (savedCart) {
+    cart = JSON.parse(savedCart);
+  }
+} catch (e) {
+  console.error("Failed to load cart from localStorage", e);
+}
 
 
 // ===========================
@@ -365,7 +397,7 @@ function updateCart() {
 
   let subtotal  = $("#subtotal");
 
-  let cartCount = $("#cart-count");
+  let cartCount = $(".cart-count");
 
   cartItems.html("");
 
@@ -442,6 +474,13 @@ function updateCart() {
 
     cartCount.hide();
 
+  }
+
+  // SAVE CART TO LOCALSTORAGE
+  try {
+    localStorage.setItem("stridex_cart", JSON.stringify(cart));
+  } catch (e) {
+    console.error("Failed to save cart to localStorage", e);
   }
 
 }

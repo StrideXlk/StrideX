@@ -16,26 +16,35 @@
   <nav class="navbar">
     <div class="container">
       <a href="index.html" class="logo">
-  <img src="Images/Logo/stridex logo.png" alt="StrideX" />
-</a>
-      <ul class="nav-links" id="nav-links">
-        <li><a href="index.html" class="active">Home</a></li>
-  <li><a href="products.html">Products</a></li>
-  <li><a href="gallery.html">Gallery</a></li>
-  <li><a href="contact.html">Contact</a></li>
-  <li><a href="about.html">About</a></li>
-<li>
-  <button class="cart-btn" onclick="toggleCart()">
-    <img src="Images/Icons/shoppingbag.png" class="cart-icon">
-    <span id="cart-count">0</span>
-  </button>
-</li>
-<li>
-  <a href="login.html" class="nav-login-btn">Login</a>
-</li>
-      <button class="hamburger" id="hamburger" aria-label="Open menu">
-        <span></span><span></span><span></span>
-      </button>
+        <img src="Images/Logo/stridex logo.png" alt="StrideX" />
+      </a>
+      <div class="nav-right">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="about.html">About</a></li>
+          <li class="desktop-only-cart">
+            <button class="cart-btn" onclick="toggleCart()">
+              <img src="Images/Icons/shoppingbag.png" class="cart-icon">
+              <span class="cart-count">0</span>
+            </button>
+          </li>
+          <li>
+            <a href="login.html" class="nav-login-btn">Login</a>
+          </li>
+        </ul>
+        <div class="nav-actions">
+          <button class="cart-btn mobile-only-cart" onclick="toggleCart()">
+            <img src="Images/Icons/shoppingbag.png" class="cart-icon">
+            <span class="cart-count">0</span>
+          </button>
+          <button class="hamburger" id="hamburger" aria-label="Open menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
     </div>
   </nav>
 
