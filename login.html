@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login – StrideX</title>
+  <link rel="stylesheet" href="css/style.css" />
+<title>About – StrideX</title>
+  <link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" type="image/png" href="Images/Logo/stridex logo x.png" />  ← ADD THIS
+</head>
+<body>
+
+  <div class="auth-page">
+    <div class="auth-box">
+
+      <!-- Logo -->
+      <a href="index.html" class="logo" style="display: block; margin-bottom: 10px;">
+        <img src="Images/Logo/stridex logo.png" alt="StrideX" style="width: 200px; height: auto; max-height: 120px; object-fit: contain; filter: brightness(0) invert(1); margin-left: 100px;" />
+      </a>
+
+      <div class="auth-tagline">Your account. Your steps.</div>
+
+      <!-- Tabs: Login / Sign Up -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login-form">Login</button>
+        <button class="auth-tab" data-tab="signup-form">Sign Up</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div class="auth-form active" id="login-form">
+        <form id="login-form-el">
+          <div class="form-group">
+            <label for="l-email">Email Address *</label>
+            <input type="email" id="l-email" placeholder="your@email.com" />
+            <div class="error-msg" id="l-email-error"></div>
+          </div>
+          <div class="form-group">
+            <label for="l-password">Password *</label>
+            <input type="password" id="l-password" placeholder="Enter your password" />
+            <div class="error-msg" id="l-password-error"></div>
+          </div>
+          <div style="display:flex; justify-content:flex-end; margin-bottom:20px;">
+            <a href="#" style="color:#aaa; font-size:0.82rem;">Forgot password?</a>
+          </div>
+          <button type="submit" class="btn btn-red">Login</button>
+        </form>
+        <p style="text-align:center; color:#aaa; font-size:0.85rem; margin-top:20px;">
+          Don't have an account?
+          <a href="#" style="color:#e63225;" onclick="$('[data-tab=signup-form]').click(); return false;">Sign up here</a>
+        </p>
+        <p style="text-align:center; margin-top:25px;">
+          <a href="index.html" style="color:#aaa; font-size:0.8rem;">← Back to Home</a>
+        </p>
+      </div>
+
+      <!-- SIGNUP FORM -->
+      <div class="auth-form" id="signup-form">
+        <form id="signup-form-el">
+          <div class="form-group">
+            <label for="s-name">Full Name *</label>
+            <input type="text" id="s-name" placeholder="Your full name" />
+            <div class="error-msg" id="s-name-error"></div>
+          </div>
+          <div class="form-group">
+            <label for="s-email">Email Address *</label>
+            <input type="email" id="s-email" placeholder="your@email.com" />
+            <div class="error-msg" id="s-email-error"></div>
+          </div>
+          <div class="form-group">
+            <label for="s-password">Password *</label>
+            <input type="password" id="s-password" placeholder="Min. 6 characters" />
+            <div class="error-msg" id="s-password-error"></div>
+          </div>
+          <div class="form-group">
+            <label for="s-confirm">Confirm Password *</label>
+            <input type="password" id="s-confirm" placeholder="Repeat your password" />
+            <div class="error-msg" id="s-confirm-error"></div>
+          </div>
+          <button type="submit" class="btn btn-red">Create Account</button>
+        </form>
+
+        <div class="success-box" id="signup-success">
+          ✅ Account created! Your info has been saved. Welcome to StrideX!
+        </div>
+
+        <p style="text-align:center; color:#aaa; font-size:0.85rem; margin-top:20px;">
+          Already have an account?
+          <a href="#" style="color:#e63225;" onclick="$('[data-tab=login-form]').click(); return false;">Login here</a>
+        </p>
+        <p style="text-align:center; margin-top:20px;">
+          <a href="index.html" style="color:#aaa; font-size:0.8rem;">← Back to Home</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="js/script.js"></script>
+
+  <script>
+    // Auth Tab Switch
+    $(".auth-tab").on("click", function () {
+      $(".auth-tab").removeClass("active");
+      $(this).addClass("active");
+      var target = $(this).data("tab");
+      $(".auth-form").removeClass("active");
+      $("#" + target).addClass("active");
+      $(".error-msg").hide();
+    });
+
+    // LOGIN FORM
+    $("#login-form-el").on("submit", function(e) {
+      e.preventDefault();
+      var valid = true;
+      $(".error-msg").hide();
+
+      var email = $("#l-email").val().trim();
+      var password = $("#l-password").val().trim();
+
+      if (email === "") {
+        $("#l-email-error").text("Please enter your email.").show();
+        valid = false;
+      } else if (!isValidEmail(email)) {
+        $("#l-email-error").text("Enter a valid email address.").show();
+        valid = false;
+      }
+
+      if (password === "") {
+        $("#l-password-error").text("Please enter your password.").show();
+        valid = false;
+      } else if (password.length < 6) {
+        $("#l-password-error").text("Password must be at least 6 characters.").show();
+        valid = false;
+      }
+
+      if (valid) {
+        window.location.href = "index.html";
+      }
+    });
+
+    // SIGNUP FORM
+    $("#signup-form-el").on("submit", function(e) {
+      e.preventDefault();
+      var valid = true;
+      $(".error-msg").hide();
+
+      var name     = $("#s-name").val().trim();
+      var email    = $("#s-email").val().trim();
+      var password = $("#s-password").val().trim();
+      var confirm  = $("#s-confirm").val().trim();
+
+      if (name === "") {
+        $("#s-name-error").text("Please enter your full name.").show();
+        valid = false;
+      }
+      if (email === "") {
+        $("#s-email-error").text("Please enter your email.").show();
+        valid = false;
+      } else if (!isValidEmail(email)) {
+        $("#s-email-error").text("Enter a valid email address.").show();
+        valid = false;
+      }
+      if (password === "") {
+        $("#s-password-error").text("Please enter a password.").show();
+        valid = false;
+      } else if (password.length < 6) {
+        $("#s-password-error").text("Password must be at least 6 characters.").show();
+        valid = false;
+      }
+      if (confirm === "") {
+        $("#s-confirm-error").text("Please confirm your password.").show();
+        valid = false;
+      } else if (confirm !== password) {
+        $("#s-confirm-error").text("Passwords do not match.").show();
+        valid = false;
+      }
+
+      if (valid) {
+        submitToGoogleSheets({ name: name, email: email, password: password, formType: "signup" }, "signup");
+      }
+    });
+  </script>
+</body>
+</html>

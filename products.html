@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products – StrideX</title>
+  <link rel="stylesheet" href="css/style.css" />
+<title>About – StrideX</title>
+  <link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" type="image/png" href="Images/Logo/stridex logo x.png" />  ← ADD THIS
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="Images/Logo/stridex logo.png" alt="StrideX" />
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+  <li><a href="products.html" class="active">Products</a></li>
+  <li><a href="gallery.html">Gallery</a></li>
+  <li><a href="contact.html">Contact</a></li>
+  <li><a href="about.html">About</a></li>
+        <li>
+          <button class="cart-btn" onclick="toggleCart()">
+            <img src="Images/Icons/shoppingbag.png" class="cart-icon">
+            <span id="cart-count">0</span>
+          </button>
+        </li>
+        <li>
+          <a href="login.html" class="nav-login-btn">Login</a>
+        </li>
+        <button class="hamburger" id="hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- PAGE BANNER -->
+  <div class="page-banner">
+    <div class="container">
+      <h1>Our Products</h1>
+      <p>Explore the full StrideX collection — loaded live via AJAX.</p>
+    </div>
+  </div>
+
+  <!-- PRODUCTS SECTION -->
+  <section style="padding: 0 0 80px;">
+    <div class="container">
+      <div class="filter-bar">
+        <button class="filter-btn active" data-category="all">All</button>
+        <button class="filter-btn" data-category="sneakers">Sneakers</button>
+        <button class="filter-btn" data-category="Boots">Boots</button>
+        <button class="filter-btn" data-category="formal">Formal</button>
+        <button class="filter-btn" data-category="casual">Casual</button>
+      </div>
+      <div id="products-container">
+        <p class="loading-text">Loading products...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="Images/Logo/stridex logo.png" alt="StrideX" style="width:200px;height:auto;object-fit:contain;display:block;margin:0 0 15px;" />
+          <p>Premium footwear for every stride. Walk bold, live bold.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Pages</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Categories</h4>
+          <ul>
+            <li><a href="products.html">Sneakers</a></li>
+            <li><a href="products.html">Boots</a></li>
+            <li><a href="products.html">Formal</a></li>
+            <li><a href="products.html">Casual</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:info@stridex.com">info@stridex.com</a></li>
+            <li><a href="contact.html">Send a Message</a></li>
+          </ul>
+        </div>
+        <div class="footer-social">
+          <h4>Follow Us</h4>
+          <div class="social-icons">
+            <a href="https://wa.me/94112345678" target="_blank" class="social-btn social-whatsapp" title="WhatsApp">
+              <img src="Images/Icons/wp.png" alt="WhatsApp" class="social-icon-img" />
+              WhatsApp
+            </a>
+            <a href="https://www.instagram.com/stridex" target="_blank" class="social-btn social-instagram" title="Instagram">
+              <img src="Images/Icons/insta.png" alt="Instagram" class="social-icon-img" />
+              Instagram
+            </a>
+            <a href="https://www.facebook.com/stridex" target="_blank" class="social-btn social-facebook" title="Facebook">
+              <img src="Images/Icons/fb.png" alt="Facebook" class="social-icon-img" />
+              Facebook
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 StrideX. All rights reserved.</p>
+        <p>Built with HTML, CSS &amp; jQuery</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="js/script.js"></script>
+
+  <!-- CART SIDEBAR -->
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+      <button onclick="toggleCart()" style="background:none;border:none;color:white;font-size:22px;cursor:pointer;">×</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Subtotal</span>
+        <span id="subtotal">Rs.0</span>
+      </div>
+      <button class="checkout-btn">Checkout</button>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact – StrideX</title>
+  <link rel="stylesheet" href="css/style.css" />
+<title>About – StrideX</title>
+  <link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" type="image/png" href="Images/Logo/stridex logo x.png" />  ← ADD THIS
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="Images/Logo/stridex logo.png" alt="StrideX" />
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+  <li><a href="products.html">Products</a></li>
+  <li><a href="gallery.html">Gallery</a></li>
+  <li><a href="contact.html" class="active">Contact</a></li>
+  <li><a href="about.html">About</a></li>
+        <li>
+          <button class="cart-btn" onclick="toggleCart()">
+            <img src="Images/Icons/shoppingbag.png" class="cart-icon">
+            <span id="cart-count">0</span>
+          </button>
+        </li>
+        <li>
+          <a href="login.html" class="nav-login-btn">Login</a>
+        </li>
+        <button class="hamburger" id="hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- PAGE BANNER -->
+  <div class="page-banner">
+    <div class="container">
+      <h1>Contact Us</h1>
+      <p>We'd love to hear from you. Send us a message below.</p>
+    </div>
+  </div>
+
+  <!-- CONTACT SECTION -->
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-grid">
+
+        <!-- LEFT: Contact Info -->
+        <div class="contact-info">
+          <h2>Get in Touch</h2>
+          <p>Have a question about a product, order, or just want to say hi? Fill out the form and we'll get back to you within 24 hours.</p>
+          <div class="contact-detail">
+            <div class="contact-icon">📧</div>
+            <div class="contact-detail-text">
+              <strong>Email</strong>
+              info@stridex.com
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-icon">📞</div>
+            <div class="contact-detail-text">
+              <strong>Phone</strong>
+              +94 11 234 5678
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-icon">📍</div>
+            <div class="contact-detail-text">
+              <strong>Address</strong>
+              145 Galle Road, Colombo 03, Sri Lanka
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-icon">🕐</div>
+            <div class="contact-detail-text">
+              <strong>Hours</strong>
+              Mon – Fri: 9am to 6pm
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Contact Form -->
+        <div>
+          <form id="contact-form">
+            <div class="form-group">
+              <label for="c-name">Full Name *</label>
+              <input type="text" id="c-name" placeholder="Your full name" />
+              <div class="error-msg" id="c-name-error"></div>
+            </div>
+            <div class="form-group">
+              <label for="c-email">Email Address *</label>
+              <input type="email" id="c-email" placeholder="your@email.com" />
+              <div class="error-msg" id="c-email-error"></div>
+            </div>
+            <div class="form-group">
+              <label for="c-subject">Subject</label>
+              <select id="c-subject">
+                <option value="">Select a subject</option>
+                <option value="order">Order Enquiry</option>
+                <option value="product">Product Question</option>
+                <option value="return">Returns & Refunds</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="c-message">Message *</label>
+              <textarea id="c-message" placeholder="Write your message here..."></textarea>
+              <div class="error-msg" id="c-message-error"></div>
+            </div>
+            <button type="submit" class="btn btn-red">Send Message</button>
+          </form>
+          <div class="success-box" id="contact-success">
+            ✅ Thank you! Your message has been sent. We'll be in touch soon.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="Images/Logo/stridex logo.png" alt="StrideX" style="width:200px;height:auto;object-fit:contain;display:block;margin:0 0 15px;" />
+          <p>Premium footwear for every stride. Walk bold, live bold.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Pages</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Categories</h4>
+          <ul>
+            <li><a href="products.html">Sneakers</a></li>
+            <li><a href="products.html">Boots</a></li>
+            <li><a href="products.html">Formal</a></li>
+            <li><a href="products.html">Casual</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:info@stridex.com">info@stridex.com</a></li>
+            <li><a href="contact.html">Send a Message</a></li>
+          </ul>
+        </div>
+        <div class="footer-social">
+          <h4>Follow Us</h4>
+          <div class="social-icons">
+            <a href="https://wa.me/94112345678" target="_blank" class="social-btn social-whatsapp" title="WhatsApp">
+              <img src="Images/Icons/wp.png" alt="WhatsApp" class="social-icon-img" />
+              WhatsApp
+            </a>
+            <a href="https://www.instagram.com/stridex" target="_blank" class="social-btn social-instagram" title="Instagram">
+              <img src="Images/Icons/insta.png" alt="Instagram" class="social-icon-img" />
+              Instagram
+            </a>
+            <a href="https://www.facebook.com/stridex" target="_blank" class="social-btn social-facebook" title="Facebook">
+              <img src="Images/Icons/fb.png" alt="Facebook" class="social-icon-img" />
+              Facebook
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 StrideX. All rights reserved.</p>
+        <p>Built with HTML, CSS &amp; jQuery</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
