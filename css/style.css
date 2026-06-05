@@ -1349,6 +1349,7 @@ ul {
   .social-icons {
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
   }
 }
 
@@ -1645,6 +1646,10 @@ ul {
     width:180px;
   }
 
+  .social-icons{
+    align-items:center;
+  }
+
   .footer-bottom{
     flex-direction:column;
     text-align:center;
@@ -1845,6 +1850,16 @@ ul {
 
   .shoe-card-img img {
     height: auto !important;
+  }
+
+  .hero {
+    min-height: auto !important;
+    padding: 80px 0 !important;
+    background: 
+      linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)), 
+      url('../Images/BG/1.jpg') !important;
+    background-position: 20% center !important;
+    background-size: cover !important;
   }
 }
 
