@@ -2,6 +2,10 @@
 //   StrideX - Main Script
 // ===========================
 
+let currentCategory = "all";
+let currentSearch = "";
+let currentSort = "default";
+
 $(document).ready(function () {
 
   // DYNAMIC CART SIDEBAR INJECTION
@@ -11,7 +15,7 @@ $(document).ready(function () {
       <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
           <h2>Your Cart</h2>
-          <button onclick="toggleCart()" style="background:none;border:none;color:white;font-size:22px;cursor:pointer;">×</button>
+          <button onclick="toggleCart()" class="close-cart-btn">✕</button>
         </div>
         <div class="cart-items" id="cartItems"></div>
         <div class="cart-footer">
@@ -25,6 +29,57 @@ $(document).ready(function () {
     `);
   }
 
+  // DYNAMIC CHECKOUT MODAL INJECTION
+  if ($("#checkoutModal").length === 0) {
+    $("body").append(`
+      <!-- CHECKOUT MODAL -->
+      <div class="checkout-modal" id="checkoutModal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Complete Your Order</h2>
+            <button onclick="closeCheckoutModal()" class="close-modal-btn">✕</button>
+          </div>
+          <form id="checkoutForm">
+            <div class="form-group-modal">
+              <label for="checkoutName">Full Name *</label>
+              <input type="text" id="checkoutName" required placeholder="John Doe" />
+            </div>
+            <div class="form-group-modal">
+              <label for="checkoutEmail">Email Address *</label>
+              <input type="email" id="checkoutEmail" required placeholder="john@example.com" />
+            </div>
+            <div class="form-group-modal">
+              <label for="checkoutAddress">Delivery Address *</label>
+              <textarea id="checkoutAddress" required placeholder="123 Street, City, Country"></textarea>
+            </div>
+            <div class="form-group-modal">
+              <label for="checkoutPhone">Phone Number *</label>
+              <input type="tel" id="checkoutPhone" required placeholder="+94 77 123 4567" />
+            </div>
+            
+            <div class="order-summary-box">
+              <h3>Order Summary</h3>
+              <div id="checkoutSummaryItems"></div>
+              <div class="checkout-summary-total">
+                <span>Total:</span>
+                <span id="checkoutSummaryTotal">Rs.0</span>
+              </div>
+            </div>
+            
+            <button type="submit" class="btn btn-red place-order-btn">Place Order</button>
+          </form>
+          
+          <div class="success-screen" id="checkoutSuccessScreen" style="display:none;">
+            <div class="success-icon">✓</div>
+            <h2>Order Placed!</h2>
+            <p>Thank you for shopping with StrideX. Your mock order number is <strong id="orderNumber" style="color: #ff3b30;"></strong>.</p>
+            <button type="button" onclick="closeCheckoutModal()" class="btn btn-red" style="margin-top: 20px; width: 100%;">Continue Shopping</button>
+          </div>
+        </div>
+      </div>
+    `);
+  }
+
   // INITIALIZE CART UI ON LOAD
   updateCart();
 
@@ -33,22 +88,77 @@ $(document).ready(function () {
     $("#nav-links").toggleClass("open");
   });
 
+  // PARSE URL CATEGORY PARAMETER
+  let urlParams = new URLSearchParams(window.location.search);
+  let categoryParam = urlParams.get('category');
+  if (categoryParam) {
+    let normalized = categoryParam.toLowerCase();
+    if (normalized === "boots") {
+      currentCategory = "Boots";
+    } else {
+      currentCategory = normalized;
+    }
+    // Update active filter button in UI
+    $(".filter-btn").removeClass("active");
+    $(`.filter-btn[data-category="${currentCategory}"]`).addClass("active");
+  }
+
   // LOAD PRODUCTS
   if ($("#products-container").length) {
-    loadProducts("all");
+    loadProducts();
   }
 
   // FILTER BUTTONS
   $(document).on("click", ".filter-btn", function () {
-
     $(".filter-btn").removeClass("active");
-
     $(this).addClass("active");
+    currentCategory = $(this).data("category");
+    loadProducts();
+  });
 
-    let category = $(this).data("category");
+  // SEARCH INPUT
+  $(document).on("input", "#search-input", function () {
+    currentSearch = $(this).val();
+    loadProducts();
+  });
 
-    loadProducts(category);
+  // SORT SELECT
+  $(document).on("change", "#sort-select", function () {
+    currentSort = $(this).val();
+    loadProducts();
+  });
 
+  // CHECKOUT FORM SUBMISSION
+  $(document).on("submit", "#checkoutForm", function (e) {
+    e.preventDefault();
+    let orderNum = "SX-" + Math.floor(100000 + Math.random() * 900000);
+    $("#orderNumber").text(orderNum);
+    $("#checkoutForm").hide();
+    $("#checkoutSuccessScreen").fadeIn();
+    cart = [];
+    updateCart();
+  });
+
+  // CHECKOUT BUTTON CLICK
+  $(document).on("click", ".checkout-btn", function (e) {
+    e.stopPropagation();
+    if (!$(this).hasClass("disabled")) {
+      openCheckout();
+    }
+  });
+
+  // QUANTITY PLUS
+  $(document).on("click", ".qty-plus", function (e) {
+    e.stopPropagation();
+    let key = decodeURIComponent($(this).data("key"));
+    changeQuantity(key, 1);
+  });
+
+  // QUANTITY MINUS
+  $(document).on("click", ".qty-minus", function (e) {
+    e.stopPropagation();
+    let key = decodeURIComponent($(this).data("key"));
+    changeQuantity(key, -1);
   });
 
 });
@@ -68,7 +178,7 @@ const allProducts = [
     category: "sneakers",
     desc: "Lightweight street runner",
     colors: ["#cccccc", "#e74c3c", "#2980b9"],
-    sizes: [6, 7, 8, 9, 10, 11]
+    sizes: [6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11]
   },
 
   {
@@ -79,7 +189,7 @@ const allProducts = [
     category: "casual",
     desc: "Everyday comfort shoes",
     colors: ["#cccccc", "#7d5a3c", "#8e44ad"],
-    sizes: [6, 7, 8, 9, 10, 11]
+    sizes: [6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11]
   },
 
   {
@@ -90,7 +200,7 @@ const allProducts = [
     category: "Boots",
     desc: "High-performance boot",
     colors: ["#cccccc", "#7d5a3c", "#546e7a", "#e74c3c"],
-    sizes: [7, 8, 9, 10, 11, 12]
+    sizes: [7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12]
   },
 
   {
@@ -101,7 +211,7 @@ const allProducts = [
     category: "formal",
     desc: "Sleek formal leather shoes",
     colors: ["#1a1a1a", "#7d5a3c", "#cccccc"],
-    sizes: [6, 7, 8, 9, 10, 11]
+    sizes: [6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11]
   },
 
   {
@@ -112,7 +222,7 @@ const allProducts = [
     category: "sneakers",
     desc: "Reflective night runner",
     colors: ["#1a1a1a", "#e74c3c", "#f39c12"],
-    sizes: [6, 7, 8, 9, 10, 11]
+    sizes: [6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11]
   },
 
   {
@@ -123,7 +233,7 @@ const allProducts = [
     category: "Boots",
     desc: "Waterproof trail boot",
     colors: ["#1a1a1a", "#546e7a", "#7d5a3c"],
-    sizes: [7, 8, 9, 10, 11, 12]
+    sizes: [7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12]
   },
 
   {
@@ -134,7 +244,7 @@ const allProducts = [
     category: "casual",
     desc: "Breezy canvas slip-on",
     colors: ["#cccccc", "#2980b9", "#e74c3c"],
-    sizes: [6, 7, 8, 9, 10, 11]
+    sizes: [6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11]
   },
 
   {
@@ -145,7 +255,7 @@ const allProducts = [
     category: "formal",
     desc: "Premium Oxford dress shoe",
     colors: ["#1a1a1a", "#7d5a3c"],
-    sizes: [6, 7, 8, 9, 10, 11]
+    sizes: [6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11]
   },
 
   {
@@ -156,7 +266,7 @@ const allProducts = [
     category: "sneakers",
     desc: "Speed training shoe",
     colors: ["#1a1a1a", "#e74c3c", "#f1c40f"],
-    sizes: [6, 7, 8, 9, 10, 11]
+    sizes: [6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11]
   }
 
 ];
@@ -166,35 +276,64 @@ const allProducts = [
 // LOAD PRODUCTS
 // ===========================
 
-function loadProducts(category) {
+function loadProducts() {
 
   let container = $("#products-container");
+  if (!container.length) return;
 
   container.html("");
 
-  allProducts.forEach(function (p) {
+  // Copy products array for sorting/filtering
+  let filteredProducts = [...allProducts];
 
-    if (
-      category === "all" ||
-      p.category === category
-    ) {
+  // 1. Filter by Category
+  if (currentCategory !== "all") {
+    filteredProducts = filteredProducts.filter(p => p.category === currentCategory);
+  }
 
-      container.append(
+  // 2. Filter by Search Query
+  if (currentSearch.trim() !== "") {
+    let query = currentSearch.toLowerCase().trim();
+    filteredProducts = filteredProducts.filter(p => 
+      p.name.toLowerCase().includes(query) || 
+      p.desc.toLowerCase().includes(query) ||
+      p.category.toLowerCase().includes(query)
+    );
+  }
 
-        buildCard(
-          p.name,
-          p.price,
-          p.img,
-          p.cartImg,
-          p.category,
-          p.desc,
-          p.colors,
-          p.sizes
-        )
+  // 3. Sort
+  if (currentSort === "price-low" || currentSort === "price-high") {
+    filteredProducts.sort((a, b) => {
+      let priceA = parseFloat(a.price.replace(/,/g, "").replace("Rs.", ""));
+      let priceB = parseFloat(b.price.replace(/,/g, "").replace("Rs.", ""));
+      return currentSort === "price-low" ? priceA - priceB : priceB - priceA;
+    });
+  } else if (currentSort === "name-asc") {
+    filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+  }
 
-      );
+  // Render
+  if (filteredProducts.length === 0) {
+    container.append(`<p class="loading-text">No products match your search or filter criteria.</p>`);
+    return;
+  }
 
-    }
+  filteredProducts.forEach(function (p) {
+
+    container.append(
+
+      buildCard(
+        p.name,
+        p.price,
+        p.img,
+        p.cartImg,
+        p.category,
+        p.desc,
+        p.colors,
+        p.sizes
+      )
+
+    );
 
   });
 
@@ -220,7 +359,7 @@ function buildCard(name, price, img, cartImg, category, desc, colors, sizes) {
   // Build size buttons
   let sizeBtns = sizes.map((s, i) => `
     <button
-      class="size-btn${i === 1 ? ' active' : ''}"
+      class="size-btn${i === 2 ? ' active' : ''}"
       data-size="${s}"
       onclick="selectSize(this)"
     >${s}</button>
@@ -394,86 +533,81 @@ function addToCart(name, price, cartImg, btn) {
 function updateCart() {
 
   let cartItems = $("#cartItems");
-
   let subtotal  = $("#subtotal");
-
   let cartCount = $(".cart-count");
 
   cartItems.html("");
-
   let total = 0;
-
   let totalItems = 0;
 
-  cart.forEach(function (item) {
-
-    let price =
-      parseFloat(
-        item.price.replace(/,/g, "").replace("Rs.", "")
-      );
-
-    let itemTotal = price * item.quantity;
-
-    total      += itemTotal;
-    totalItems += item.quantity;
-
-    let safeKey = encodeURIComponent(item.cartKey);
-
-    cartItems.append(`
-
-      <div class="cart-item-simple" style="position:relative;">
-
-        <img
-          src="${item.cartImg}"
-          class="cart-thumb"
-        >
-
-        <div class="cart-info" style="flex:1;">
-
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-
-            <div class="cart-item-name" style="margin:0;">
-              ${item.name}
-            </div>
-
-            <button
-              class="cart-remove-btn"
-              data-key="${safeKey}"
-              title="Remove"
-              style="background:none;border:none;color:#666;font-size:16px;cursor:pointer;padding:0 4px;line-height:1;"
-            >✕</button>
-
-          </div>
-
-          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:0.8rem;color:#aaa;">
-            <span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${item.color};border:1px solid #555;flex-shrink:0;"></span>
-            Size: UK ${item.size} &nbsp;|&nbsp; Qty: ${item.quantity}
-          </div>
-
-          <div class="cart-item-price">
-            Rs.${itemTotal.toLocaleString()}
-          </div>
-
-        </div>
-
+  if (cart.length === 0) {
+    cartItems.html(`
+      <div class="cart-empty-state">
+        <div class="empty-cart-icon">🛒</div>
+        <div class="empty-title">Your Cart is Empty</div>
+        <p class="empty-desc">Looks like you haven't added anything yet. Start exploring our premium footwear catalog!</p>
+        <button class="btn btn-outline empty-shop-btn" onclick="toggleCart()">Shop Collection</button>
       </div>
-
     `);
+    $(".checkout-btn").addClass("disabled").prop("disabled", true);
+  } else {
+    $(".checkout-btn").removeClass("disabled").prop("disabled", false);
 
-  });
+    cart.forEach(function (item) {
+      let price = parseFloat(item.price.replace(/,/g, "").replace("Rs.", ""));
+      let itemTotal = price * item.quantity;
+      total += itemTotal;
+      totalItems += item.quantity;
+
+      let safeKey = encodeURIComponent(item.cartKey);
+
+      cartItems.append(`
+        <div class="cart-item-simple">
+          <img src="${item.cartImg}" class="cart-thumb" alt="${item.name}">
+          <div class="cart-info">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+              <div class="cart-item-name">${item.name}</div>
+              <button class="cart-remove-btn" data-key="${safeKey}" title="Remove">✕</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;margin: 6px 0 10px;font-size:0.8rem;color:#aaa;">
+              <span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${item.color};border:1px solid #555;flex-shrink:0;"></span>
+              <span>Size: UK ${item.size}</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+              <div class="cart-qty-controls">
+                <button class="qty-btn qty-minus" data-key="${safeKey}">−</button>
+                <div class="qty-val">${item.quantity}</div>
+                <button class="qty-btn qty-plus" data-key="${safeKey}">+</button>
+              </div>
+              <div class="cart-item-price">
+                Rs.${itemTotal.toLocaleString()}
+              </div>
+            </div>
+          </div>
+        </div>
+      `);
+    });
+  }
 
   subtotal.text("Rs." + total.toLocaleString());
 
+  // CART POP-SHAKE ANIMATION TRIGGER
+  let badgeCount = parseInt(totalItems);
+  let oldBadgeCount = parseInt(cartCount.first().text()) || 0;
+  
   if (totalItems > 0) {
-
     cartCount.text(totalItems);
-
     cartCount.css("display", "flex");
 
+    if (badgeCount !== oldBadgeCount) {
+      $(".cart-btn").addClass("cart-shake");
+      setTimeout(() => {
+        $(".cart-btn").removeClass("cart-shake");
+      }, 500);
+    }
   } else {
-
     cartCount.hide();
-
+    cartCount.text(0);
   }
 
   // SAVE CART TO LOCALSTORAGE
@@ -483,6 +617,17 @@ function updateCart() {
     console.error("Failed to save cart to localStorage", e);
   }
 
+}
+
+function changeQuantity(cartKey, delta) {
+  let item = cart.find(i => i.cartKey === cartKey);
+  if (item) {
+    item.quantity += delta;
+    if (item.quantity <= 0) {
+      cart = cart.filter(i => i.cartKey !== cartKey);
+    }
+    updateCart();
+  }
 }
 
 
@@ -515,3 +660,43 @@ $(document).on("click", ".cart-remove-btn", function(e) {
   cart = cart.filter(function(item) { return item.cartKey !== key; });
   updateCart();
 });
+
+
+// ===========================
+// CHECKOUT MODAL LOGIC
+// ===========================
+
+function openCheckout() {
+  if (cart.length === 0) {
+    alert("Your cart is empty!");
+    return;
+  }
+  
+  $("#cartSidebar").removeClass("active");
+  $("#checkoutModal").addClass("active");
+  $("#checkoutForm").show();
+  $("#checkoutSuccessScreen").hide();
+  
+  let summaryItems = $("#checkoutSummaryItems");
+  summaryItems.html("");
+  let total = 0;
+  
+  cart.forEach(item => {
+    let price = parseFloat(item.price.replace(/,/g, "").replace("Rs.", ""));
+    let itemTotal = price * item.quantity;
+    total += itemTotal;
+    
+    summaryItems.append(`
+      <div style="display:flex;justify-content:space-between;font-size:0.85rem;color:#aaa;margin-bottom:8px;">
+        <span>${item.name} (UK ${item.size}) x ${item.quantity}</span>
+        <span>Rs.${itemTotal.toLocaleString()}</span>
+      </div>
+    `);
+  });
+  
+  $("#checkoutSummaryTotal").text("Rs." + total.toLocaleString());
+}
+
+function closeCheckoutModal() {
+  $("#checkoutModal").removeClass("active");
+}
